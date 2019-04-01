@@ -27,7 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().permitAll();
+                .formLogin().permitAll()
+                .and().logout()
+                .logoutUrl("/perform_logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
     }
 
     @Override

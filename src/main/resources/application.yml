@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/ravidb?useSSL=false
     username: root
-    password: Ravi#143
+    password: oxalic
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
