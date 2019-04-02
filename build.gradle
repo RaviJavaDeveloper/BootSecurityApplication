@@ -1,3 +1,5 @@
+import java.awt.Taskbar
+
 plugins {
     id 'java'
     id 'application'
@@ -24,4 +26,59 @@ dependencies {
 
 application {
     mainClassName = "com.ravi.BootSecurityApplication"
+}
+
+task hello(){
+    println "task is running"
+}
+
+task stopTomcat(type:Exec) {
+    workingDir '/home/A10587/private-workspace/tomcat9/bin'
+
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        commandLine 'cmd', '/c', 'shutdownZ.bat'
+    } else {
+        commandLine './shutdown.sh'
+    }
+    //store the output instead of printing to the console:
+    standardOutput = new ByteArrayOutputStream()
+    //extension method stopTomcat.output() can be used to obtain the output:
+    ext.output = {
+        return standardOutput.toString()
+    }
+}
+
+
+task startTomcat(type:Exec) {
+    workingDir '/home/A10587/private-workspace/tomcat9/bin'
+
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        commandLine 'cmd', '/c', 'startup.bat'
+    } else {
+        commandLine './startup.sh'
+    }
+    //store the output instead of printing to the console:
+    standardOutput = new ByteArrayOutputStream()
+    //extension method stopTomcat.output() can be used to obtain the output:
+    ext.output = {
+        return standardOutput.toString()
+    }
+}
+
+task restartTomcat(dependsOn : war,type:Exec) {
+    workingDir '/home/A10587/private-workspace/tomcat9/bin'
+
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        commandLine 'cmd', '/c', 'shutdown.bat'
+        commandLine 'cmd', '/c', 'startup.bat'
+    } else {
+        commandLine './shutdown.sh'
+        commandLine './startup.sh'
+    }
+    //store the output instead of printing to the console:
+    standardOutput = new ByteArrayOutputStream()
+    //extension method stopTomcat.output() can be used to obtain the output:
+    ext.output = {
+        return standardOutput.toString()
+    }
 }

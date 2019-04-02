@@ -1,27 +1,41 @@
 package com.ravi.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
+
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "email")
     private String email;
+
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "password")
     private String password;
-    @Column(name = "status")
-    private boolean status;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Roles> roles;
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "status")
+    private Boolean status;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.EAGER)
+    private List<UserRoles> userRoles;
 
     public Integer getId() {
         return id;
@@ -55,19 +69,19 @@ public class User {
         this.password = password;
     }
 
-    public boolean isStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
-    public List<Roles> getRoles() {
-        return roles;
+    public List<UserRoles> getUserRoles() {
+        return userRoles;
     }
 
-    public void setRoles(List<Roles> roles) {
-        this.roles = roles;
+    public void setUserRoles(List<UserRoles> userRoles) {
+        this.userRoles = userRoles;
     }
 }
